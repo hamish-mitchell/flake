@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    ./home.nix
+    ./home
     ./hardware-configuration.nix
     inputs.niri.nixosModules.niri
   ];
