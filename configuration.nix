@@ -1,7 +1,14 @@
-{ config, pkgs, ... }:
-
 {
-  imports = [ ./hardware-configuration.nix ];
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    ./home.nix
+    ./hardware-configuration.nix
+    inputs.niri.nixosModules.niri
+  ];
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -16,7 +23,7 @@
   i18n.defaultLocale = "en_AU.UTF-8";
 
   # Nvidia
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -27,7 +34,12 @@
   hardware.graphics.enable = true;
 
   # Niri
-  programs.niri.enable = true;
+  nixpkgs.overlays = [inputs.niri.nixosModules.niri];
+  niri-flake.cache.enable = true;
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri-unstable;
+  };
 
   # greetd + tuigreet
   services.greetd = {
@@ -50,7 +62,7 @@
   # User
   users.users.hamish = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" ];
+    extraGroups = ["wheel" "networkmanager" "video"];
     shell = pkgs.zsh;
   };
 
@@ -64,7 +76,7 @@
   ];
 
   # Nix settings
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "26.05";

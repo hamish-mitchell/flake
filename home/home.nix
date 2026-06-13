@@ -1,6 +1,4 @@
-{ config, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home.username = "hamish";
   home.homeDirectory = "/home/hamish";
 
@@ -41,6 +39,16 @@
 
   # GitHub CLI
   programs.gh = {
+    enable = true;
+  };
+
+  # VS Code
+  programs.vscode = {
+    enable = true;
+  };
+
+  # Firefox
+  programs.firefox = {
     enable = true;
   };
 

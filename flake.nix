@@ -15,18 +15,18 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, niri, ... }: {
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64_linux";
+      specialArgs = {inherit self inputs;};
       modules = [
         ./configuration.nix
         home-manager.nixosModules.home-manager
-        niri.nixosModules.niri
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.hamish = import ./home.nix;
-        }
       ];
     };
   };
