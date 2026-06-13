@@ -52,5 +52,10 @@
     enable = true;
   };
 
+  # Fuzzel
+  programs.fuzzel = {
+    enable = true;
+  };
+
   home.stateVersion = "26.05";
 }
