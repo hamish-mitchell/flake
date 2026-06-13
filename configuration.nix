@@ -34,7 +34,7 @@
   hardware.graphics.enable = true;
 
   # Niri
-  nixpkgs.overlays = [inputs.niri.nixosModules.niri];
+  nixpkgs.overlays = [inputs.niri.overlays.niri];
   niri-flake.cache.enable = true;
   programs.niri = {
     enable = true;
