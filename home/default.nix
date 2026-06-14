@@ -1,5 +1,8 @@
-{
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.hamish = import ./home.nix;
+{inputs, ...}: {
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.hamish = import ./home.nix;
+    extraSpecialArgs = {inherit inputs;};
+  };
 }

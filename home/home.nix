@@ -1,4 +1,8 @@
-{inputs, pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     ./niri.nix
     inputs.zen-browser.homeModules.default
@@ -15,24 +19,16 @@
     size = 24;
   };
 
-  # 1. Force the dark color-scheme for GNOME/GTK apps (including libadwaita/GTK4)
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
     };
   };
 
-  # 2. Qt applications will read the GTK theme or can be styled via environment
   home.sessionVariables = {
     QT_QPA_PLATFORMTHEME = "qt5ct"; # Or "gnome"
   };
 
-  # 3. Ensure XDG Desktop Portals are configured (required for Niri)
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
-  
   # Packages
   home.packages = with pkgs; [
     alacritty
