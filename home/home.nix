@@ -15,28 +15,21 @@
     size = 24;
   };
 
-  # 1. Force the dark color-scheme for GNOME/GTK apps (including libadwaita/GTK4)
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
     };
   };
 
-  # 2. Qt applications will read the GTK theme or can be styled via environment
-  home.sessionVariables = {
-    QT_QPA_PLATFORMTHEME = "qt5ct"; # Or "gnome"
-  };
-
-  # 3. Ensure XDG Desktop Portals are configured (required for Niri)
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
-  
   # Packages
   home.packages = with pkgs; [
     alacritty
-    maple-mono.NF
+    maple-mono.Normal-NF
+    kdePackages.dolphin
+    kdePackages.ark
+    qbittorrent
+    proton-vpn
+    zed-editor
   ];
 
   # Fonts
@@ -53,26 +46,13 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      font = {
-        normal.family = "Maple Mono NF";
-        size = 12.0;
-      };
-
-      window = {
-        padding = {
-          x = 12;
-          y = 12;
-        };
-      };
+      window.padding = { x = 12; y = 12; };
     };
   };
 
   # Helix
   programs.helix = {
     enable = true;
-    settings = {
-      theme = "...";
-    };
   };
 
   # GitHub CLI
@@ -85,17 +65,22 @@
     enable = true;
   };
 
-  # Firefox
-  programs.firefox = {
-    enable = true;
-  };
-
   programs.zen-browser = {
     enable = true;
   };
 
+  stylix.targets.zen-browser.enable = false;
+
   # Fuzzel
   programs.fuzzel = {
+    enable = true;
+  };
+
+  programs.waybar = {
+    enable = true;
+  };
+
+  programs.distrobox = {
     enable = true;
   };
 

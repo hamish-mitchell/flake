@@ -10,6 +10,8 @@
     inputs.niri.nixosModules.niri
   ];
 
+  services.gnome.gnome-keyring.enable = true;
+
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -17,6 +19,21 @@
   # Networking
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPorts = [ 80 443 8080 9999 ];
+
+  networking = {
+    useDHCP = false;
+
+    interfaces.enp42s0 = {
+      ipv4.addresses = [{
+        address = "192.168.68.222";
+        prefixLength = 24;
+      }];
+    };
+
+    defaultGateway = "192.168.68.1";
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
+  };
 
   # Locale
   time.timeZone = "Australia/Melbourne";
@@ -88,7 +105,23 @@
       };
     };
   };
-  
+
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    polarity = "dark";
+    fonts = {
+      monospace = {
+        package = pkgs.maple-mono.Normal-NF;
+        name = "Maple Mono NF";
+      };er
+    };
+  };
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
 
   # Nix settings
   nix.settings.experimental-features = ["nix-command" "flakes"];

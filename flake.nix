@@ -19,16 +19,22 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
+    stylix,
     home-manager,
     ...
   } @ inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64_linux";
+      system = "x86_64-linux";
       specialArgs = {inherit self inputs;};
       modules = [
         ./configuration.nix
@@ -36,6 +42,7 @@
         {
           home-manager.extraSpecialArgs = { inherit inputs; };
         }
+        stylix.nixosModules.stylix
       ];
     };
   };
